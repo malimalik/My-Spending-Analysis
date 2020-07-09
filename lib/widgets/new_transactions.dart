@@ -21,6 +21,23 @@ class _NewTransactionState extends State<NewTransaction> {
 
   final detailController = TextEditingController();
 
+  DateTime _date = DateTime.now();
+
+  Future<Null> selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+      context: context,
+      initialDate: _date,
+      firstDate: DateTime(1970),
+      lastDate: DateTime(2100),
+    );
+
+    if (picked != null && picked != _date) {
+      setState(() {
+        _date = picked;
+      });
+    }
+  }
+
   void submit() {
     final enteredTitle = titleController.text;
     final enteredAmount = double.parse(amountController.text);
@@ -39,7 +56,6 @@ class _NewTransactionState extends State<NewTransaction> {
   Widget build(BuildContext context) {
     return Card(
       elevation: 5,
-
       child: Container(
         padding: EdgeInsets.all(10),
         height: 600,
@@ -61,7 +77,9 @@ class _NewTransactionState extends State<NewTransaction> {
               autocorrect: true,
               enableSuggestions: true,
               decoration: InputDecoration(
-                  labelText: 'Amount', hintText: 'The cost of your purchase',),
+                labelText: 'Amount',
+                hintText: 'The cost of your purchase',
+              ),
               controller: amountController,
               onSubmitted: (_) => submit(),
               keyboardType: TextInputType.number,
@@ -75,6 +93,17 @@ class _NewTransactionState extends State<NewTransaction> {
               controller: detailController,
               onSubmitted: (_) => submit(),
               //onChanged: (val) => amountInput = val,
+            ),
+            Row(
+              children: <Widget>[
+                Text('No Text Enetered'),
+                FlatButton(
+                    textColor: Theme.of(context).primaryColor,
+                    child: Text('Date'),
+                    onPressed: () {
+                      selectDate(context);
+                    })
+              ],
             ),
             RaisedButton.icon(
               onPressed: () {

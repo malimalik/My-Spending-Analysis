@@ -42,24 +42,17 @@ class TransactionList extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return Card(
                     color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
                     shadowColor: Colors.orange,
-                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                    margin: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
                     child: Row(
                       children: <Widget>[
-                        Card(
-                          shadowColor: Colors.red,
-                          color: Colors.red,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(90.00)),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              shape: BoxShape.circle),
                           child: Container(
                             margin: EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              boxShadow: [
-                                new BoxShadow(
-                                    color: Colors.red, blurRadius: 5.0),
-                              ],
                               border:
                                   Border.all(width: 2, style: BorderStyle.none),
                             ),
