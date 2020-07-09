@@ -1,6 +1,7 @@
 //this contains the form widget which allows the user to enter the details of their transaction
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 //the reason why this is converted into a stateful widget is to make sure the information
 //that is filled out on the submit form does not get deleted.
@@ -22,18 +23,32 @@ class _NewTransactionState extends State<NewTransaction> {
   final detailController = TextEditingController();
 
   DateTime _date = DateTime.now();
+  TimeOfDay _time = TimeOfDay.now();
+
+  // Date picker widget
 
   Future<Null> selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
       context: context,
       initialDate: _date,
       firstDate: DateTime(1970),
-      lastDate: DateTime(2100),
+      lastDate: DateTime.now(),
     );
 
     if (picked != null && picked != _date) {
       setState(() {
         _date = picked;
+      });
+    }
+  }
+
+  Future<Null> selectTime(BuildContext context) async {
+    final TimeOfDay picked =
+        await showTimePicker(context: context, initialTime: _time);
+
+    if (picked != null && picked != _time) {
+      setState(() {
+        _time = picked;
       });
     }
   }
@@ -96,12 +111,24 @@ class _NewTransactionState extends State<NewTransaction> {
             ),
             Row(
               children: <Widget>[
-                Text('No Text Enetered'),
+                Text(_date == null
+                    ? 'No Date has been chosen'
+                    : DateFormat.yMd().format(_date)),
+                Text(_time == null
+                    ? 'No time has been chosen'
+                    : TimeOfDay(hour: _date.hour, minute: _date.minute)),
                 FlatButton(
                     textColor: Theme.of(context).primaryColor,
                     child: Text('Date'),
                     onPressed: () {
                       selectDate(context);
+                    }),
+                FlatButton(
+                    textColor: Theme.of(context).primaryColor,
+                    child: Text('Time'),
+                    onPressed: () {
+                      selectTime(context);
+                      print(_time);
                     })
               ],
             ),
