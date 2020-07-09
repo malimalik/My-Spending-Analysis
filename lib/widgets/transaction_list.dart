@@ -41,26 +41,34 @@ class TransactionList extends StatelessWidget {
             : ListView.builder(
                 itemBuilder: (context, index) {
                   return Card(
-                    color: Colors.amber,
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
                     shadowColor: Colors.orange,
                     margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                     child: Row(
                       children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              new BoxShadow(
-                                  color: Colors.orange, blurRadius: 24.0),
-                            ],
-                            border:
-                                Border.all(width: 2, style: BorderStyle.solid),
-                          ),
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            '\$${transactions[index].amount.toStringAsFixed(2)}', //the builder method allows us to access each transaction according to indexing
-                            textAlign: TextAlign.left,
-                            style: GoogleFonts.aBeeZee(color: Colors.black),
+                        Card(
+                          shadowColor: Colors.red,
+                          color: Colors.red,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(90.00)),
+                          child: Container(
+                            margin: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                new BoxShadow(
+                                    color: Colors.red, blurRadius: 5.0),
+                              ],
+                              border:
+                                  Border.all(width: 2, style: BorderStyle.none),
+                            ),
+                            padding: EdgeInsets.all(10),
+                            child: Text(
+                              '\$${transactions[index].amount.toStringAsFixed(2)}', //the builder method allows us to access each transaction according to indexing
+                              textAlign: TextAlign.left,
+                              style: GoogleFonts.roboto(color: Colors.black),
+                            ),
                           ),
                         ),
                         Column(
@@ -71,7 +79,10 @@ class TransactionList extends StatelessWidget {
                               Text(
                                 transactions[index].title,
                                 textAlign: TextAlign.left,
-                                style: GoogleFonts.aBeeZee(color: Colors.black),
+                                style: GoogleFonts.roboto(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
                               ),
                               Text(
                                 DateFormat.yMMMMEEEEd()
@@ -81,7 +92,7 @@ class TransactionList extends StatelessWidget {
                                 //such as June 12, 2020, time
 
                                 textAlign: TextAlign.left,
-                                style: GoogleFonts.aBeeZee(color: Colors.black),
+                                style: GoogleFonts.roboto(color: Colors.black),
                               ),
                             ]),
                       ],

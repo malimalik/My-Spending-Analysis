@@ -40,7 +40,7 @@ class Chart extends StatelessWidget {
         'Day': DateFormat.E().format(WoD),
         'Amount': cumSum,
       };
-    });
+    }).reversed.toList();
   }
 
   //a method to calculate the percentage of a day's spending, as in the current day.

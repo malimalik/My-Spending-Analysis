@@ -28,7 +28,10 @@ class ChartDisplay extends StatelessWidget {
           child: new CircularPercentIndicator(
             radius: 50,
             animation: true,
-            center: new Text((pctSpent*100).toString(), style:  new TextStyle(fontSize: 10.00),),
+            center: new Text(
+              (pctSpent * 100).toString(),
+              style: new TextStyle(fontSize: 10.00),
+            ),
             animationDuration: 1200,
             percent: pctSpent,
             backgroundColor: Colors.grey,
