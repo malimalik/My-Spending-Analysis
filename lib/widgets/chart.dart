@@ -63,8 +63,8 @@ class Chart extends StatelessWidget {
             return ChartDisplay(
                 data['Day'],
                 data['Amount'],
-                percentSpent == 0.0
-                    ? 0.00
+                percentSpent == 0
+                    ? 0
                     : (data['Amount'] as double) / percentSpent);
           }).toList(),
         )),

@@ -54,15 +54,18 @@ class _NewTransactionState extends State<NewTransaction> {
   }
 
   void submit() {
+    if (amountController.text.isEmpty) {
+      return;
+    }
     final enteredTitle = titleController.text;
     final enteredAmount = double.parse(amountController.text);
 
-    if (enteredTitle.isEmpty || enteredAmount <= 0) {
+    if (enteredTitle.isEmpty || enteredAmount <= 0 || _date == null) {
       return;
     } else
       //the .widget property gives me access to the widget properties
       //it is not possible to access the widget's property inside the state function with .widget
-      widget.newTransaction(enteredTitle, enteredAmount);
+      widget.newTransaction(enteredTitle, enteredAmount, _date);
 
     Navigator.of(context).pop();
   }
@@ -114,22 +117,12 @@ class _NewTransactionState extends State<NewTransaction> {
                 Text(_date == null
                     ? 'No Date has been chosen'
                     : DateFormat.yMd().format(_date)),
-                Text(_time == null
-                    ? 'No time has been chosen'
-                    : TimeOfDay(hour: _date.hour, minute: _date.minute)),
                 FlatButton(
                     textColor: Theme.of(context).primaryColor,
                     child: Text('Date'),
                     onPressed: () {
                       selectDate(context);
                     }),
-                FlatButton(
-                    textColor: Theme.of(context).primaryColor,
-                    child: Text('Time'),
-                    onPressed: () {
-                      selectTime(context);
-                      print(_time);
-                    })
               ],
             ),
             RaisedButton.icon(

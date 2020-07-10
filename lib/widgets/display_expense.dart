@@ -11,7 +11,7 @@ class _DisplayExpenseState extends State<DisplayExpense> {
     'Tuesday',
     'Wednesday',
     'Thursday',
-    'Firday',
+    'Friday',
     'Saturday',
     'Sunday'
   ];

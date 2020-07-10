@@ -16,7 +16,7 @@ class ChartDisplay extends StatelessWidget {
     return Column(
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(1.0),
           child: FittedBox(child: Text('\$${totalSum.toStringAsFixed(0)}')),
         ),
         SizedBox(
@@ -29,7 +29,7 @@ class ChartDisplay extends StatelessWidget {
             radius: 50,
             animation: true,
             center: new Text(
-              (pctSpent * 100).toString(),
+              (pctSpent.toStringAsFixed(2)),
               style: new TextStyle(fontSize: 10.00),
             ),
             animationDuration: 1200,

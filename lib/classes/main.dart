@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
       title: 'My Expenses',
       theme: ThemeData(
         primarySwatch: Colors.red,
+        errorColor: Colors.red,
         accentColor: Colors.deepOrangeAccent,
       ),
       home: MyHomePage(),
@@ -40,23 +41,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> transactions = [
-    // Transaction(
-    //     id: '1',
-    //     amount: 64.00,
-    //     time: DateTime.now(),
-    //     title: 'Jack Purcell White Sneakers'),
-    // Transaction(
-    //     id: '2',
-    //     amount: 14.5,
-    //     time: DateTime.now(),
-    //     title: 'Supima T Shirt Black'),
-    // Transaction(
-    //     id: '3',
-    //     amount: 104.0,
-    //     time: DateTime.now(),
-    //     title: 'Banana Republic Jacket'),
-  ];
+  final List<Transaction> transactions = [];
+
+  void _deleteTransaction(String id) {
+    setState(() {
+      transactions.removeWhere((_recentTransactions) {
+        return _recentTransactions.id == id;
+      });
+    });
+  }
 
 //this function gets the recent transactions from the past week only as I wish to display
 //the transactions from Monday to Sunday only
@@ -75,16 +68,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
   /// this is the method that actually creates the new transaction
   /// it stores the instance variables data for the title and the amount
-  void _newTransaction(String title, double amount) {
+  void _newTransaction(String title, double amount, DateTime chosenDate) {
     final newTrans = Transaction(
         amount: amount,
         title: title,
         id: DateTime.now().toString(),
-        time: DateTime.now());
+        time: chosenDate);
+
     setState(() {
       transactions.add(newTrans);
     });
   }
+
+  //this element takes the selected transaction and removes it when a certain condtion is met
 
   ///this is the method that is implemented when you the add transaction button is pressed
   ///this method prompts the user to the modal sheet and lets them enter the details of the transaction
@@ -116,7 +112,12 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[Chart(_recentTransactions), TransactionList(transactions)],
+          children: <Widget>[
+            Chart(_recentTransactions),
+
+            //expanded widget forces the child to take all the available height it can get
+            TransactionList(transactions, _deleteTransaction)
+          ],
         ),
       ),
       floatingActionButton: Tooltip(
