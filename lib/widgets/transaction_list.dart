@@ -19,7 +19,7 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 500,
+      height: MediaQuery.of(context).size.height * 0.6,
       //listview has infinite height and that is why you need to wrap it
       //around the container, it needs a constraint
       child: transactions.isEmpty

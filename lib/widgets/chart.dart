@@ -53,21 +53,24 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        child: Card(
-            child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: groupedTransactionValues.map((data) {
-            return ChartDisplay(
-                data['Day'],
-                data['Amount'],
-                percentSpent == 0
-                    ? 0
-                    : (data['Amount'] as double) / percentSpent);
-          }).toList(),
-        )),
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.25,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          child: Card(
+              child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: groupedTransactionValues.map((data) {
+              return ChartDisplay(
+                  data['Day'],
+                  data['Amount'],
+                  percentSpent == 0
+                      ? 0
+                      : (data['Amount'] as double) / percentSpent);
+            }).toList(),
+          )),
+        ),
       ),
     );
   }

@@ -23,7 +23,6 @@ class _NewTransactionState extends State<NewTransaction> {
   final detailController = TextEditingController();
 
   DateTime _date = DateTime.now();
-  TimeOfDay _time = TimeOfDay.now();
 
   // Date picker widget
 
@@ -42,27 +41,56 @@ class _NewTransactionState extends State<NewTransaction> {
     }
   }
 
-  Future<Null> selectTime(BuildContext context) async {
-    final TimeOfDay picked =
-        await showTimePicker(context: context, initialTime: _time);
-
-    if (picked != null && picked != _time) {
-      setState(() {
-        _time = picked;
-      });
-    }
-  }
-
   void submit() {
-    if (amountController.text.isEmpty) {
+    if (amountController.text.isEmpty && titleController.text.isEmpty) {
+      //if no amount has been entered, the user gets a message to enter the amount
+      showDialog(
+          barrierDismissible: true,
+          context: context,
+          builder: (_) => AlertDialog(
+                title: Text("No Data Entered"),
+                content:
+                    Text("Please enter an amount, a title and select a date"),
+              ));
       return;
     }
+
     final enteredTitle = titleController.text;
     final enteredAmount = double.parse(amountController.text);
 
-    if (enteredTitle.isEmpty || enteredAmount <= 0 || _date == null) {
+    //if the user does not fill out the title field, they get a message
+    if (enteredTitle.isEmpty && amountController.text.isNotEmpty) {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text("No title detected"),
+          content: Text("Please enter a title"),
+        ),
+      );
+      return;
+      //if the user enters an invalid amount, such as zero or a negative amount
+    } else if (enteredTitle.isNotEmpty &&
+        (enteredAmount.isNegative || amountController.text.isEmpty)) {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text("Invalid amount detected"),
+          content: Text("Please enter a valid amount"),
+        ),
+      );
+      return;
+      //if the user does not choose the date of their transaction
+    } else if (_date == null) {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text("No date selected"),
+          content: Text("Please choose a date"),
+        ),
+      );
       return;
     } else
+
       //the .widget property gives me access to the widget properties
       //it is not possible to access the widget's property inside the state function with .widget
       widget.newTransaction(enteredTitle, enteredAmount, _date);
