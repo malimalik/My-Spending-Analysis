@@ -28,7 +28,9 @@ class TransactionList extends StatelessWidget {
               children: <Widget>[
                 Container(
                   child: Text(
-                      'It appears that you have no transactions yet, press the add button on the bottom right corner to get started.'),
+                    'It appears that you have no transactions yet, press the add button on the bottom right corner to get started.',
+                    style: GoogleFonts.adventPro(),
+                  ),
                 ),
                 SizedBox(height: 50),
                 Image.network(
