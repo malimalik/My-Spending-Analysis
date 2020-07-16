@@ -100,78 +100,84 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Container(
-        padding: EdgeInsets.all(10),
-        height: 600,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            TextField(
-              autocorrect: true,
-              enableSuggestions: true,
-              decoration: InputDecoration(
-                  labelText: 'Title', hintText: 'What did you buy?'),
-              //these controller are like listeners, they listen to the user
-              //input and then save the user input
-              controller: titleController,
-              //onChanged
-            ),
-            TextField(
-              style: GoogleFonts.aBeeZee(),
-              autocorrect: true,
-              enableSuggestions: true,
-              decoration: InputDecoration(
-                labelText: 'Amount',
-                hintText: 'The cost of your purchase',
+    return SingleChildScrollView(
+          child: Card(
+        elevation: 5,
+        child: Container(
+          padding: EdgeInsets.only(
+              top: 10,
+              left: 10,
+              right: 10,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 10),
+         // height: 500,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              TextField(
+                autocorrect: true,
+                enableSuggestions: true,
+                decoration: InputDecoration(
+                    labelText: 'Title', hintText: 'What did you buy?'),
+                //these controller are like listeners, they listen to the user
+                //input and then save the user input
+                controller: titleController,
+                //onChanged
               ),
-              controller: amountController,
-              onSubmitted: (_) => submit(),
-              keyboardType: TextInputType.number,
-              //onChanged: (val) => amountInput = val,
-            ),
-            TextField(
-              autocorrect: true,
-              enableSuggestions: true,
-              decoration: InputDecoration(
-                  labelText: 'Details', hintText: 'Details of your purchase'),
-              controller: detailController,
-              onSubmitted: (_) => submit(),
-              //onChanged: (val) => amountInput = val,
-            ),
-            Row(
-              children: <Widget>[
-                Text(_date == null
-                    ? 'No Date has been chosen'
-                    : DateFormat.yMd().format(_date)),
-                FlatButton(
-                    textColor: Theme.of(context).primaryColor,
-                    child: Text('Date'),
-                    onPressed: () {
-                      selectDate(context);
-                    }),
-              ],
-            ),
-            RaisedButton.icon(
-              onPressed: () {
-                submit();
-              },
-              padding: EdgeInsets.all(8),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(28.0),
+              TextField(
+                style: GoogleFonts.aBeeZee(),
+                autocorrect: true,
+                enableSuggestions: true,
+                decoration: InputDecoration(
+                  labelText: 'Amount',
+                  hintText: 'The cost of your purchase',
+                ),
+                controller: amountController,
+                onSubmitted: (_) => submit(),
+                keyboardType: TextInputType.number,
+                //onChanged: (val) => amountInput = val,
               ),
-              icon: Icon(
-                Icons.add,
-                color: Colors.white,
+              TextField(
+                autocorrect: true,
+                enableSuggestions: true,
+                decoration: InputDecoration(
+                    labelText: 'Details', hintText: 'Details of your purchase'),
+                controller: detailController,
+                onSubmitted: (_) => submit(),
+                //onChanged: (val) => amountInput = val,
               ),
-              color: Colors.red,
-              label: Text(
-                'Add Transaction',
-                style: TextStyle(color: Colors.white),
+              Row(
+                children: <Widget>[
+                  Text(_date == null
+                      ? 'No Date has been chosen'
+                      : DateFormat.yMd().format(_date)),
+                  FlatButton(
+                      textColor: Theme.of(context).primaryColor,
+                      child: Text('Date'),
+                      onPressed: () {
+                        selectDate(context);
+                      }),
+                ],
               ),
-            ),
-          ],
+              RaisedButton.icon(
+                onPressed: () {
+                  submit();
+                },
+                padding: EdgeInsets.all(8),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(28.0),
+                ),
+                icon: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
+                color: Colors.red,
+                label: Text(
+                  'Add Transaction',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

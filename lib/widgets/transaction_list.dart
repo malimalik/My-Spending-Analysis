@@ -91,6 +91,7 @@ class TransactionList extends StatelessWidget {
                             ),
                           ]),
                       IconButton(
+                        tooltip: 'Delete',
                         alignment: Alignment.topRight,
                         icon: Icon(Icons.delete),
                         color: Theme.of(context).errorColor,

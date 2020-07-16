@@ -2,16 +2,27 @@
 //TIP: when it doubt, wrap it around a container and it will probably work
 // The container is able to have its own width whereas the column just takes as as much space as its child.
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:my_first_assignment/widgets/chart.dart';
-import '../widgets/chart.dart';
 import 'package:my_first_assignment/widgets/new_transactions.dart';
 import 'package:my_first_assignment/widgets/transaction_list.dart';
+import 'package:flutter/services.dart';
+
+import '../widgets/chart.dart';
 import '../widgets/transaction_list.dart';
+
 import '../classes/transaction.dart';
+
+
 //import 'package:google_fonts/google_fonts.dart';
 
 void main() {
+  //it does not make sense for the app to run in landscape orientation and therefore I have restricted it to portrait mode
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
   runApp(MyApp());
 }
 
@@ -99,6 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,14 +131,15 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: Tooltip(
-        message: "Add new transaction",
-        child: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () => promptTransaction(context),
-          hoverColor: Colors.purple,
-        ),
-      ),
+      //we actually check the platform and if the platform is IOS then we do not render the material button as it is part of the material icon kit
+      floatingActionButton: Platform.isIOS
+          ? Container()
+          : FloatingActionButton(
+              tooltip: 'Add a new transaction',
+              child: Icon(Icons.add),
+              onPressed: () => promptTransaction(context),
+              hoverColor: Colors.purple,
+            ),
     );
   }
 }
