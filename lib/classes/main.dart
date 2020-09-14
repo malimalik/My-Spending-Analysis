@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_assignment/widgets/chart.dart';
 import 'package:my_first_assignment/widgets/new_transactions.dart';
@@ -114,50 +115,83 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        toolbarOpacity: 1,
-        bottomOpacity: 1,
-        title: Text("Good Day, Ali!"),
+    final pageBody = SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text('Show Chart Only'),
+              Switch.adaptive(
+                activeColor: Theme.of(context).accentColor,
+                value: _dispChart,
+                onChanged: (val) {
+                  setState(() {
+                    _dispChart = val;
+                  });
+                },
+              ),
+            ],
+          ),
+          _dispChart
+              ? Chart(_recentTransactions)
+              :
+              //expanded widget forces the child to take all the available height it can get.
+              TransactionList(transactions, _deleteTransaction)
+        ],
       ),
-
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text('Show Chart Only'),
-                Switch(
-                  value: _dispChart,
-                  onChanged: (val) {
-                    setState(() {
-                      _dispChart = val;
-                    });
-                  },
-                ),
-              ],
-            ),
-            _dispChart
-                ? Chart(_recentTransactions)
-                :
-                //expanded widget forces the child to take all the available height it can get.
-                TransactionList(transactions, _deleteTransaction)
-          ],
-        ),
-      ),
-
-      ///the following code checks for the platform, if it is iOS, a capertiono button is rendered
-      floatingActionButton: Platform.isIOS
-          ? Container()
-          : FloatingActionButton(
-              tooltip: 'Add a new transaction',
-              child: Icon(Icons.add),
-              onPressed: () => promptTransaction(context),
-              hoverColor: Colors.purple,
-            ),
     );
+
+    return Platform.isIOS
+        ? CupertinoPageScaffold(
+            child: pageBody,
+            navigationBar: CupertinoNavigationBar(
+              middle: Text("Good Day, Ali!"),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  GestureDetector(
+                    child: Icon(
+                      CupertinoIcons.add,
+                      color: Colors.black,
+                    ),
+                    onTap: () => promptTransaction(context),
+                  )
+                ],
+              ),
+            ),
+          )
+        : Scaffold(
+            appBar: AppBar(
+              leading: GestureDetector(
+                onTap: () => promptTransaction(context),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    Icon(
+                      Icons.add,
+                      textDirection: TextDirection.ltr,
+                    ),
+                  ],
+                ),
+              ),
+              toolbarOpacity: 1,
+              bottomOpacity: 1,
+              title: Text("Good Day, Ali!"),
+            ),
+            body: pageBody,
+
+            ///the following code checks for the platform, if it is iOS, the floating action button is not rendered
+            floatingActionButton: Platform.isIOS
+                ? Container()
+                : FloatingActionButton(
+                    tooltip: 'Add a new transaction',
+                    child: Icon(Icons.add),
+                    onPressed: () => promptTransaction(context),
+                    hoverColor: Colors.purple,
+                  ),
+          );
   }
 }
