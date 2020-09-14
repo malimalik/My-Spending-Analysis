@@ -15,7 +15,6 @@ import '../widgets/transaction_list.dart';
 
 import '../classes/transaction.dart';
 
-
 //import 'package:google_fonts/google_fonts.dart';
 
 void main() {
@@ -54,6 +53,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> transactions = [];
 
+  // this method deletes the transactions, it is a void method and requires to change the state,
+  //that is why it is inside a stateful widget rather than a stateless widget
   void _deleteTransaction(String id) {
     setState(() {
       transactions.removeWhere((_recentTransactions) {
@@ -62,8 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-//this function gets the recent transactions from the past week only as I wish to display
-//the transactions from Monday to Sunday only
+///This function gets the recent transactions from the past week since the app calculates weekly expenses
 
   List<Transaction> get _recentTransactions {
     return transactions.where((transaction) {
@@ -73,16 +73,16 @@ class _MyHomePageState extends State<MyHomePage> {
           Duration(days: 7),
         ),
       );
-      //to list returns a list as the where returns only an iterable
+      //to list returns a list of transactions from the past week as the where function returns only an iterable.
     }).toList();
   }
 
-  /// this is the method that actually creates the new transaction
+  /// This is the method that actually creates the new transaction
   /// it stores the instance variables data for the title and the amount
   void _newTransaction(String title, double amount, DateTime chosenDate) {
     final newTrans = Transaction(
         amount: amount,
-        title: title,
+        title : title,
         id: DateTime.now().toString(),
         time: chosenDate);
 
@@ -91,9 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  //this element takes the selected transaction and removes it when a certain condtion is met
-
-  ///this is the method that is implemented when you the add transaction button is pressed
+  ///This is the method that is implemented when you the add transaction button is pressed
   ///this method prompts the user to the modal sheet and lets them enter the details of the transaction
 
   void promptTransaction(BuildContext ctx) {
