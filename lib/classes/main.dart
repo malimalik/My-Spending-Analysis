@@ -63,7 +63,10 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-///This function gets the recent transactions from the past week since the app calculates weekly expenses
+  //the following property is used in the material/cupertiono button for displaying the chart
+  bool _dispChart = false;
+
+  ///This function gets the recent transactions from the past week since the app calculates weekly expenses
 
   List<Transaction> get _recentTransactions {
     return transactions.where((transaction) {
@@ -82,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _newTransaction(String title, double amount, DateTime chosenDate) {
     final newTrans = Transaction(
         amount: amount,
-        title : title,
+        title: title,
         id: DateTime.now().toString(),
         time: chosenDate);
 
@@ -91,14 +94,14 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  ///This is the method that is implemented when you the add transaction button is pressed
-  ///this method prompts the user to the modal sheet and lets them enter the details of the transaction
+  ///The following method prompts the user to the modal sheet and lets them enter the details of the transaction, that is,
+  ///title, amount and date of the transaction
 
   void promptTransaction(BuildContext ctx) {
     showModalBottomSheet(
         isDismissible: true,
         isScrollControlled: true,
-        backgroundColor: Colors.grey,
+        backgroundColor: Colors.amber,
         context: ctx,
         builder: (_) {
           return GestureDetector(
@@ -117,19 +120,36 @@ class _MyHomePageState extends State<MyHomePage> {
         bottomOpacity: 1,
         title: Text("Good Day, Ali!"),
       ),
+
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Chart(_recentTransactions),
-
-            //expanded widget forces the child to take all the available height it can get
-            TransactionList(transactions, _deleteTransaction)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text('Show Chart Only'),
+                Switch(
+                  value: _dispChart,
+                  onChanged: (val) {
+                    setState(() {
+                      _dispChart = val;
+                    });
+                  },
+                ),
+              ],
+            ),
+            _dispChart
+                ? Chart(_recentTransactions)
+                :
+                //expanded widget forces the child to take all the available height it can get.
+                TransactionList(transactions, _deleteTransaction)
           ],
         ),
       ),
-      //we actually check the platform and if the platform is IOS then we do not render the material button as it is part of the material icon kit
+
+      ///the following code checks for the platform, if it is iOS, a capertiono button is rendered
       floatingActionButton: Platform.isIOS
           ? Container()
           : FloatingActionButton(
