@@ -1,6 +1,6 @@
 
 # Project Title
- Weekly-Expenses-App
+  My Spending Analysis
  
  ## Tech/Framework used
  The project is created with 
