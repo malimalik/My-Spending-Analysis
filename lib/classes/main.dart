@@ -3,7 +3,6 @@
 // The container is able to have its own width whereas the column just takes as as much space as its child.
 
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_assignment/widgets/chart.dart';
@@ -29,15 +28,24 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'My Expenses',
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-        errorColor: Colors.red,
-        accentColor: Colors.deepOrangeAccent,
-      ),
-      home: MyHomePage(),
-    );
+    return Platform.isIOS
+        ? CupertinoApp(
+            title: 'My Expenses',
+            theme: CupertinoThemeData(
+              primaryColor: Colors.red,
+            ),
+            home: MyHomePage(),
+          )
+        : MaterialApp(
+            title: 'My Expenses',
+            theme: ThemeData(
+              primarySwatch: Platform.isIOS ? Colors.purple : Colors.red,
+              errorColor: Platform.isIOS ? Colors.purple : Colors.red,
+              accentColor:
+                  Platform.isIOS ? Colors.purple : Colors.deepOrangeAccent,
+            ),
+            home: MyHomePage(),
+          );
   }
 }
 

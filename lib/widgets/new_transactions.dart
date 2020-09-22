@@ -1,7 +1,11 @@
 //this contains the form widget which allows the user to enter the details of their transaction
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import '../widgets/adaptiveButton.dart';
 
 //the reason why this is converted into a stateful widget is to make sure the information
 //that is filled out on the submit form does not get deleted.
@@ -101,7 +105,7 @@ class _NewTransactionState extends State<NewTransaction> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-          child: Card(
+      child: Card(
         elevation: 5,
         child: Container(
           padding: EdgeInsets.only(
@@ -109,10 +113,14 @@ class _NewTransactionState extends State<NewTransaction> {
               left: 10,
               right: 10,
               bottom: MediaQuery.of(context).viewInsets.bottom + 10),
-         // height: 500,
+          // height: 500,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
+              CupertinoTextField(
+                autocorrect: true,
+                enableSuggestions: true,
+              ),
               TextField(
                 autocorrect: true,
                 enableSuggestions: true,
@@ -150,14 +158,9 @@ class _NewTransactionState extends State<NewTransaction> {
                   Text(_date == null
                       ? 'No Date has been chosen'
                       : DateFormat.yMd().format(_date)),
-                  FlatButton(
-                      textColor: Theme.of(context).primaryColor,
-                      child: Text('Date'),
-                      onPressed: () {
-                        selectDate(context);
-                      }),
                 ],
               ),
+              AdaptiveButton('Date', selectDate),
               RaisedButton.icon(
                 onPressed: () {
                   submit();
@@ -170,7 +173,7 @@ class _NewTransactionState extends State<NewTransaction> {
                   Icons.add,
                   color: Colors.white,
                 ),
-                color: Colors.red,
+                color: Platform.isIOS ? Colors.purple : Colors.red,
                 label: Text(
                   'Add Transaction',
                   style: TextStyle(color: Colors.white),
